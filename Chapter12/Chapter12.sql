@@ -77,10 +77,8 @@ SELECT geo_name,
 FROM us_counties_2010
 WHERE (p0010001 - (SELECT percentile_cont(.5) WITHIN GROUP (ORDER BY p0010001)
                    FROM us_counties_2010))
-       BETWEEN -1000 AND 1000;
-
-            
--- BONUS: Subquery expressions create table and insert data
+       BETWEEN -1000 AND 1000;  
+-- subquery expressions create table and insert data
 CREATE TABLE retirees (
     id int,
     first_name varchar(50),
@@ -108,6 +106,13 @@ FROM employees
 WHERE EXISTS (
     SELECT id
     FROM retirees
+    WHERE id = employees.emp_id);
+
+SELECT first_name, last_name 
+FROM employees
+WHERE NOT EXISTS (
+    SELECT id 
+    FROM retirees 
     WHERE id = employees.emp_id);
 
 -- Listing 12-7: Using a simple CTE to find large counties
